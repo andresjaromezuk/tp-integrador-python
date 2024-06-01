@@ -2,7 +2,7 @@
 
 import pandas as pd
 from datetime import datetime
-from helper import save_one
+#from helper import save_one
 
 ATRIBUTOS_VALIDOS = [
     "id",
@@ -117,8 +117,9 @@ class Pelicula:
             generos = df.columns[4:][bool_indexer].tolist()
             lista_peliculas.append(Pelicula(nombre, fecha_completa, generos, id=id))
         return lista_peliculas
-
-     #def get_stats(cls,df_mov, anios=None, generos=None):
+    
+    @classmethod
+    def get_stats(cls,df_mov, anios=None, generos=None):
         # Este class method imprime una serie de estadísticas calculadas sobre
         # los resultados de una consulta al DataFrame df_mov.
         # Las estadísticas se realizarán sobre las filas que cumplan con los requisitos de:
@@ -128,6 +129,20 @@ class Pelicula:
         # - Datos película más vieja
         # - Datos película más nueva
         # - Bar plots con la cantidad de películas por año/género.
+        list = [datetime.strptime(str(x), '%d-%b-%Y') for index, x in enumerate(df_mov['Release Date']) if str(x) != 'nan']
+
+        list_1 = [str(anio)[-2:] for index, anio in enumerate(df_mov['Release Date']) if str(anio) != 'nan']
+
+        df = pd.DataFrame(list_1).value_counts()
+
+        anio_min = pd.DataFrame(list).min()
+        anio_max = pd.DataFrame(list).max()
+        count_anio = pd.DataFrame(list)
+
+        print("PELÍCULA MÁS NUEVA:", anio_min)
+        print("PELÍCULA MÁS VIEJA:", anio_max)
+
+
 
     def remove_from_df(self, df_mov):
         # Borra del DataFrame el objeto contenido en esta clase.
@@ -156,7 +171,7 @@ class Pelicula:
         df_mov = df_mov.drop(indice)
         return df_mov
     
-    @classmethod
-    def save(cls, df):
-        save_one('peliculas.csv', df)
+    # @classmethod
+    # def save(cls, df):
+    #     save_one('peliculas.csv', df)
 
