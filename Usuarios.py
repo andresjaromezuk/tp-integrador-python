@@ -1,5 +1,4 @@
 import pandas as pd
-from datetime import datetime
 
 class Usuario:
     def __init__(self, occupation, active_since, id = None):
@@ -28,6 +27,16 @@ class Usuario:
         usuario_df = pd.DataFrame([usuario])
         df_usuarios = pd.concat([df_usuarios, usuario_df], ignore_index=True)
         return df_usuarios
+    
+    @classmethod
+    def create_df_from_csv(cls, filename):
+        # Este class method recibe el nombre de un archivo csv, valida su
+        # estructura y devuelve un DataFrame con la información cargada del
+        # archivo 'filename'.
+        df_users = pd.read_csv(filename)
+        if list(df_users.columns) != ['id', 'Occupation', 'Active Since']:
+            raise ValueError("NO tiene la estructura de Usuarios")
+        return df_users
 
     def remove_from_df(self, df_usuarios):
         # Borra del DataFrame el objeto contenido en esta clase.

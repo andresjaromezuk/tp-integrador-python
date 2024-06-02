@@ -200,8 +200,4 @@ class Pelicula:
         indice = filtrado.index
         df_mov = df_mov.drop(indice)
         return df_mov
-    
-    # @classmethod
-    # def save(cls, df):
-    #     save_one('peliculas.csv', df)
 
