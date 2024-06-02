@@ -104,10 +104,10 @@ class Pelicula:
             desde_anio, hasta_anio = anios
             desde_anio = datetime.strptime(desde_anio, '%d-%b-%Y')
             hasta_anio = datetime.strptime(hasta_anio, '%d-%b-%Y')
-            # index_anios = [index for index, anio in enumerate(df_movies['Release Date']) if str(anio) != 'nan' and desde_anio <= datetime.strptime(anio, '%d-%b-%Y') <= hasta_anio ]
-            # df = df_movies.iloc[index_anios]
-            df = df[(df['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) >= desde_anio) &
-                    (df['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) <= hasta_anio)]
+            index_anios = [index for index, anio in enumerate(df_movies['Release Date']) if str(anio) != 'nan' and desde_anio <= datetime.strptime(anio, '%d-%b-%Y') <= hasta_anio ]
+            df = df_movies.iloc[index_anios]
+            # df = df_movies[(df_movies['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) >= desde_anio) &
+            #         (df_movies['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) <= hasta_anio)]
         if generos is not None:
             df= [df_movies[df_movies[x] == 1] for x in generos][0]
         
