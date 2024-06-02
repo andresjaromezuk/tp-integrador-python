@@ -1,6 +1,6 @@
 import pandas as pd
-from Peliculas import Pelicula
-from Usuarios import Usuario
+from classes.Peliculas import Pelicula
+from classes.Usuarios import Usuario
 
 def load_all(
         file_peliculas,
