@@ -2,6 +2,7 @@
 
 import pandas as pd
 from datetime import datetime
+from  matplotlib import pyplot as plt
 #from helper import save_one
 
 ATRIBUTOS_VALIDOS = [
@@ -103,8 +104,10 @@ class Pelicula:
             desde_anio, hasta_anio = anios
             desde_anio = datetime.strptime(desde_anio, '%d-%b-%Y')
             hasta_anio = datetime.strptime(hasta_anio, '%d-%b-%Y')
-            index_anios = [index for index, anio in enumerate(df_movies['Release Date']) if str(anio) != 'nan' and desde_anio <= datetime.strptime(anio, '%d-%b-%Y') <= hasta_anio ]
-            df = df_movies.iloc[index_anios]
+            # index_anios = [index for index, anio in enumerate(df_movies['Release Date']) if str(anio) != 'nan' and desde_anio <= datetime.strptime(anio, '%d-%b-%Y') <= hasta_anio ]
+            # df = df_movies.iloc[index_anios]
+            df = df[(df['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) >= desde_anio) &
+                    (df['Release Date'].apply(lambda x: datetime.strptime(x, '%d-%b-%Y')) <= hasta_anio)]
         if generos is not None:
             df= [df_movies[df_movies[x] == 1] for x in generos][0]
         
@@ -119,7 +122,7 @@ class Pelicula:
         return lista_peliculas
     
     @classmethod
-    def get_stats(cls,df_mov, anios=None, generos=None):
+    def get_stats(cls,df_mov,df_scores, anios=None, generos=None):
         # Este class method imprime una serie de estadísticas calculadas sobre
         # los resultados de una consulta al DataFrame df_mov.
         # Las estadísticas se realizarán sobre las filas que cumplan con los requisitos de:
@@ -137,11 +140,38 @@ class Pelicula:
 
         anio_min = pd.DataFrame(list).min()
         anio_max = pd.DataFrame(list).max()
-        count_anio = pd.DataFrame(list)
+        count_anio = pd.DataFrame(list_1)
+      
+        #Películas nueva-vieja
+        print("PELÍCULA MÁS NUEVA: ", anio_min[0])
+        print("PELÍCULA MÁS VIEJA: ", anio_max[0])
 
-        print("PELÍCULA MÁS NUEVA:", anio_min)
-        print("PELÍCULA MÁS VIEJA:", anio_max)
+        #Gráfico por año
+        df = pd.DataFrame(count_anio).value_counts()
+        num_values = len(df)
+        plt.figure(figsize=(num_values * 0.2, 6)) 
+        plt.title('Cantidad de películas por año')
+        df.plot.bar()
 
+        #Gráfico por género
+        peliculas_por_genero = df_mov[GENEROS_VALIDOS].sum()
+        plt.figure(figsize=(10, 5))
+        peliculas_por_genero.plot(kind='bar')
+        plt.title('Cantidad de películas por género')
+        plt.show()
+        
+        #Cantidad total de películas
+        total_peliculas = len(df_mov)
+        print("TOTAL PELICULAS: ", total_peliculas)
+
+        #Promedio por película
+        promedio_por_pelicula = df_scores.groupby('movie_id')['rating'].mean().reset_index()
+        promedio_por_pelicula.columns = ['movie_id', 'rating_promedio']
+
+        promedios = df_mov[['Name']].join(promedio_por_pelicula)
+        print("\n\nPROMEDIO POR PELÍCULAS: ")
+        return promedios
+    
 
 
     def remove_from_df(self, df_mov):
