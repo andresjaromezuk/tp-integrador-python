@@ -1,10 +1,11 @@
 import pandas as pd
+from classes.Personas import Persona
 
-class Usuario:
-    def __init__(self, occupation, active_since, id = None):
+class Usuario(Persona):
+    def __init__(self, full_name, year_of_birth, gender, zipcode, occupation, active_since, id=None):
+        super().__init__(full_name, year_of_birth, gender, zipcode,id)
         self.occupation = occupation
         self.active_since = active_since
-        self.id = id
 
     def __repr__(self):
         return f"Usuario({self.occupation}, {self.active_since}, {self.id})"
