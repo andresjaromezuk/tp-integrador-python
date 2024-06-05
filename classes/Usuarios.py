@@ -38,6 +38,18 @@ class Usuario(Persona):
         if list(df_users.columns) != ['id', 'Occupation', 'Active Since']:
             raise ValueError("NO tiene la estructura de Usuarios")
         return df_users
+    
+    @classmethod
+    def get_stats(cls, df_people, df_users):
+        
+        total_users = len(df_users)
+
+        users_by_occupation = df_users.groupby('Occupation').count()
+
+        df_merged = pd.merge(df_users, df_people, left_on='id', right_on='id')
+        users_by_year_birth = df_merged.groupby('year of birth').count()
+
+        return total_users, users_by_occupation, users_by_year_birth
 
     def remove_from_df(self, df_usuarios):
         # Borra del DataFrame el objeto contenido en esta clase.

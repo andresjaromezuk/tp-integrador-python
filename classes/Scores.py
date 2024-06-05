@@ -61,7 +61,7 @@ class Score():
       #Scores agrupados por género (sexo)
       df_group_by_gender = df_all_related.groupby(['Name','Gender'])['rating'].mean()
 
-      #Scores agrupados por género ocupación
+      #Scores agrupados por ocupación
       df_group_by_occupation = df_all_related.groupby(['Name','Occupation'])['rating'].mean()
 
       return df_group_by_year, df_group_by_gender, df_group_by_occupation
