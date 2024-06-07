@@ -64,7 +64,7 @@ class Score():
       #Scores agrupados por ocupación
       df_group_by_occupation = df_all_related.groupby(['Name','Occupation'])['rating'].mean()
 
-      return df_group_by_year, df_group_by_gender, df_group_by_occupation
+      return df_group_by_year.reset_index(), df_group_by_gender.reset_index(), df_group_by_occupation.reset_index()
 
 
     def remove_from_df(self, df_scores):
