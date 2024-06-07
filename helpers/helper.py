@@ -3,6 +3,7 @@ from classes.Peliculas import Pelicula
 from classes.Usuarios import Usuario
 from classes.Personas import Persona
 from classes.Scores import Score
+from classes.Trabajadores import Trabajador
 
 def load_all(
         file_peliculas,
@@ -14,7 +15,7 @@ def load_all(
     df_peliculas = Pelicula.create_df_from_csv(file_peliculas)
     df_personas = Persona.create_df_from_csv(file_personas)
     df_scores = Score.create_df_from_csv(file_scores)
-    df_trabajadores = pd.read_csv(file_trabajadores)
+    df_trabajadores = Trabajador.create_df_from_csv(file_trabajadores)
     df_usuarios = Usuario.create_df_from_csv(file_usuarios)
     return df_peliculas, df_personas, df_scores, df_trabajadores, df_usuarios
 
