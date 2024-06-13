@@ -132,6 +132,7 @@ class Pelicula:
         # - Datos película más vieja
         # - Datos película más nueva
         # - Bar plots con la cantidad de películas por año/género.
+        #
         list = [datetime.strptime(str(x), '%d-%b-%Y') for index, x in enumerate(df_mov['Release Date']) if str(x) != 'nan']
 
         list_1 = [str(anio)[-2:] for index, anio in enumerate(df_mov['Release Date']) if str(anio) != 'nan']
